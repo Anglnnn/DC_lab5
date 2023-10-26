@@ -12,7 +12,6 @@ type ArraySum struct {
 }
 
 func main() {
-	// Create three arrays and their corresponding ArraySum structs.
 	array1 := []int{1, 2, 3, 4, 5}
 	arraySum1 := ArraySum{}
 
@@ -22,11 +21,9 @@ func main() {
 	array3 := []int{11, 12, 13, 14, 15}
 	arraySum3 := ArraySum{}
 
-	// Create a WaitGroup to wait for all three threads to finish.
 	var wg sync.WaitGroup
 	wg.Add(3)
 
-	// Start three threads, each one responsible for calculating the sum of its own array and checking if all three sums are equal.
 	go func() {
 		defer wg.Done()
 
@@ -42,10 +39,8 @@ func main() {
 				break
 			}
 
-			// If the sums are not equal, add or subtract one from one element of the array.
 			array1[rand.Intn(len(array1))] += rand.Intn(2) - 1
 
-			// Calculate the new sum of the array.
 			arraySum1.mu.Lock()
 			arraySum1.sum = 0
 			for _, v := range array1 {
@@ -53,7 +48,6 @@ func main() {
 			}
 			arraySum1.mu.Unlock()
 
-			// Wait for a short period of time to avoid busy waiting.
 			time.Sleep(10 * time.Millisecond)
 		}
 	}()
@@ -73,10 +67,8 @@ func main() {
 				break
 			}
 
-			// If the sums are not equal, add or subtract one from one element of the array.
 			array2[rand.Intn(len(array2))] += rand.Intn(2) - 1
 
-			// Calculate the new sum of the array.
 			arraySum2.mu.Lock()
 			arraySum2.sum = 0
 			for _, v := range array2 {
@@ -84,7 +76,6 @@ func main() {
 			}
 			arraySum2.mu.Unlock()
 
-			// Wait for a short period of time to avoid busy waiting.
 			time.Sleep(10 * time.Millisecond)
 		}
 	}()
@@ -104,10 +95,8 @@ func main() {
 				break
 			}
 
-			// If the sums are not equal, add or subtract one from one element of the array.
 			array3[rand.Intn(len(array3))] += rand.Intn(2) - 1
 
-			// Calculate the new sum of the array.
 			arraySum3.mu.Lock()
 			arraySum3.sum = 0
 			for _, v := range array3 {
@@ -115,12 +104,9 @@ func main() {
 			}
 			arraySum3.mu.Unlock()
 
-			// Wait for a short period of time to avoid busy waiting.
 			time.Sleep(10 * time.Millisecond)
 		}
 	}()
 
-	// Wait for all three threads to finish.
 	wg.Wait()
-
 }
